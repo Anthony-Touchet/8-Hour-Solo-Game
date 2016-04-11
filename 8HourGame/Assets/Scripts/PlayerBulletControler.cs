@@ -7,21 +7,17 @@ public class PlayerBulletControler : MonoBehaviour {
     Rigidbody bullRB;       //the Bullet's RigidBody
     private Vector3 fireAt;
     private GameObject player;
+    public bool live;
 
     public int bullSpeed = 500; //Bullet's speed.
 
-    public enum BulletState //Bullet's state
-    {
-        LIVE,
-        DEAD,
-    }
-    public BulletState currentState;    //Bullet's currrent state.
 
     void Start()
     {
         player = GameObject.Find("Player");
         bullRB = gameObject.GetComponent<Rigidbody>();  //Get RigidBody
         bullRB.useGravity = false;                      //Turn off the bullet's gravity.
+        live = true;
 
         fireAt = gameObject.transform.position - player.gameObject.transform.position;  //Fire from the player away from the player
         
@@ -32,14 +28,23 @@ public class PlayerBulletControler : MonoBehaviour {
     {
         if(other.gameObject.tag == "Terrain")   //if hit terrain
         {
-            currentState = BulletState.DEAD;    //Bullet is dead
-            bullRB.useGravity = true;           //Bullet has gravity
+            bullRB.useGravity = true;           //Bullet has gravity            
         }
 
         if (other.gameObject.tag == "Enemy")   //if hit terrain
         {
-            currentState = BulletState.DEAD;    //Bullet is dead
+            bullRB.useGravity = true;           //Bullet has gravity            
+        }
+
+        if (other.gameObject.tag == "EnemyBullet")   //if hit Enemy Bullet
+        {          
             bullRB.useGravity = true;           //Bullet has gravity
+        }
+
+        if (other.gameObject.tag == "PlayerBullet")   //if hit Enemy Bullet
+        {
+            bullRB.useGravity = true;           //Bullet has gravity
+            live = false;                       //Bullet is dead
         }
     }
 }

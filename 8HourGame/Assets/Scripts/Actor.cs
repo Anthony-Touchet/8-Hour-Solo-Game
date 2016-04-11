@@ -7,10 +7,13 @@ public class Actor : MonoBehaviour {
     public int bullDam;
     protected float fireRate;
 
+    public GameObject deathParticles;
+
 	public virtual void Update () {
 	    if(this.health <= 0)
         {
             Destroy(this.gameObject);
+            Instantiate(deathParticles, gameObject.transform.position, new Quaternion());
         }
 	}
 }

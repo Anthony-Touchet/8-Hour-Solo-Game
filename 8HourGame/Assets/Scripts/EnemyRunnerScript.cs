@@ -5,7 +5,7 @@ using System;
 public class EnemyRunnerScript : Actor {
 
     PlayerController player;
-    public Vector3 offest;
+    Vector3 offest;
     Vector3 movement;
 
     void Lerp(Vector3 vec)    //Function for player movement
@@ -16,7 +16,7 @@ public class EnemyRunnerScript : Actor {
     // Use this for initialization
     void Start () {
         offest = new Vector3(0, 0, 0);
-        player = GameObject.Find("Player").GetComponent<PlayerController>();
+        player = GameObject.Find("Player").GetComponent<PlayerController>();    //Finds Player
         health = 10;   //Player's Health: how much x before destroyed.
         speed = 2;      //Speed of the player. the higher it is the slower he will move
         bullDam = 10;   //How much damage the enemy will take.
@@ -27,7 +27,8 @@ public class EnemyRunnerScript : Actor {
 	override public void Update () {
         base.Update();  //Check to see if health is zero.
 
-        if(gameObject.transform.position.x != player.gameObject.transform.position.x)
+        gameObject.transform.LookAt(player.transform);
+        if(gameObject.transform.position.x < player.gameObject.transform.position.x - .1 || gameObject.transform.position.x > player.gameObject.transform.position.x + .1)
         {
             offest.x = gameObject.transform.position.x - player.gameObject.transform.position.x;
         }
@@ -37,7 +38,7 @@ public class EnemyRunnerScript : Actor {
             offest.x = 0;
         }
 
-        if (gameObject.transform.position.z != player.gameObject.transform.position.z)
+        if (gameObject.transform.position.z < player.gameObject.transform.position.z - .1 || gameObject.transform.position.z > player.gameObject.transform.position.z + .1)
         {
             offest.z = gameObject.transform.position.z - player.gameObject.transform.position.z;
         }
@@ -47,22 +48,27 @@ public class EnemyRunnerScript : Actor {
             offest.z = 0;
         }
 
-        movement.x = offest.x / Math.Abs(offest.x);
-        movement.z = offest.z / Math.Abs(offest.z);
+        if(offest.x != 0)
+            movement.x = offest.x / Math.Abs(offest.x);
+        if(offest.z != 0)
+            movement.z = offest.z / Math.Abs(offest.z);
 
-        Lerp(-(movement) * speed * Time.deltaTime);
+        movement = -(movement) * speed * Time.deltaTime;
+
+        Lerp(movement);
     }
 
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "EnemyBullet")  //If it's an enemy bullet
         {
-            health -= GetComponent<EnemyBullet>().damage;   //Take damage
+            health -= other.gameObject.GetComponent<EnemyBulletController>().damage;   //Take damage
         }
 
-        if (other.gameObject.tag == "PlayerBullet") //if it is a player bullet
+        if (other.gameObject.tag == "PlayerBullet" && other.gameObject.GetComponent<PlayerBulletControler>().live == true) //if it is a player bullet
         {
             health -= player.bullDam;
+            other.gameObject.GetComponent<PlayerBulletControler>().live = false;
         }
     }
 }
