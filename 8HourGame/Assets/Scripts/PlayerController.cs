@@ -6,11 +6,13 @@ public class PlayerController : Actor {
 
     public GameObject bullet;   //Player Bullet Prefab
     public int ammo;           //THe amount of bullets the player has.
-    private float nextFire;
+    public float nextFire;
     private GameObject bullSpawnPoint;
     private GameObject cam;     //Camera
     private GameObject side;     //Camera
     private Vector3 movement;
+
+    public int maxhealth;
 
     Slider helathSlider;
     Text bullets;
@@ -26,6 +28,7 @@ public class PlayerController : Actor {
         side = GameObject.Find("Side");
         cam = GameObject.Find("Main Camera");
         bullSpawnPoint = GameObject.Find("BSP");
+        maxhealth = 100;
         health = 100;   //Player's Health: how much x before destroyed.
         speed = 25;      //Speed of the player. the higher it is the slower he will move
         bullDam = 10;   //How much damage the enemy will take.
@@ -76,9 +79,7 @@ public class PlayerController : Actor {
     }
 
 	override public void Update () {
-        base.Update();  //Check to see if health is zero.
-        
-        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) )&& ammo > 0 && Time.time >= nextFire) //if Space bar is pressed down, ammo is greater than 0, and time is greater than or equal to time when you can fire again.
+        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) ) && ammo > 0 && Time.time >= nextFire) //if Space bar is pressed down, ammo is greater than 0, and time is greater than or equal to time when you can fire again.
         {
             GameObject temp;    //Bullet that you just spawned based off a position.
             temp = Instantiate(bullet, bullSpawnPoint.transform.position, new Quaternion()) as GameObject;

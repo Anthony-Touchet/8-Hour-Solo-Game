@@ -9,7 +9,8 @@ public class EnemyShooterScript : Actor {
 
     public GameObject bullet;
     public GameObject bullSpawn;
-    
+    public int expWorth;
+
     void Fire()
     {
         if (Time.time >= nextFire) //if Space bar is pressed down, ammo is greater than 0, and time is greater than or equal to time when you can fire again.
@@ -29,10 +30,15 @@ public class EnemyShooterScript : Actor {
         speed = 2;      //Speed of the player. the higher it is the slower he will move
         bullDam = 10;   //How much damage the enemy will take.
         fireRate = 5f;  //How fast the player will be able to fire.
+        expWorth = 20;
     }
 	
 	// Update is called once per frame
 	override public void Update () {
+        if (health <= 0)
+        {
+            player.GetComponent<PlayerLevelControler>().currentExp += expWorth;
+        }
         base.Update();
 
         gameObject.transform.LookAt(player.gameObject.transform.position);  //Follows the Player

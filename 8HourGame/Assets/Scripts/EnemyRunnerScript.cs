@@ -7,6 +7,7 @@ public class EnemyRunnerScript : Actor {
     PlayerController player;
     Vector3 offest;
     Vector3 movement;
+    public int expWorth;
 
     void Lerp(Vector3 vec)    //Function for player movement
     {
@@ -21,10 +22,15 @@ public class EnemyRunnerScript : Actor {
         speed = 2;      //Speed of the player. the higher it is the slower he will move
         bullDam = 10;   //How much damage the enemy will take.
         fireRate = 1f;  //How fast the player will be able to fire.
+        expWorth = 10;
     }
 	
 	// Update is called once per frame
 	override public void Update () {
+        if(health <= 0)
+        {
+            player.GetComponent<PlayerLevelControler>().currentExp += expWorth;
+        }
         base.Update();  //Check to see if health is zero.
 
         gameObject.transform.LookAt(player.transform);

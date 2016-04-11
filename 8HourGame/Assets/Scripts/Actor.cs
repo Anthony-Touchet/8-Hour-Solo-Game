@@ -5,7 +5,7 @@ public class Actor : MonoBehaviour {
     protected float speed;
     public int health;
     public int bullDam;
-    protected float fireRate;
+    public float fireRate;
 
     public GameObject deathParticles;
 

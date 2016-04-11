@@ -65,12 +65,17 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Actor.cs" />
     <Compile Include="Assets\Scripts\Destroy.cs" />
+    <Compile Include="Assets\Scripts\EndGameReq.cs" />
     <Compile Include="Assets\Scripts\EnemyBulletController.cs" />
     <Compile Include="Assets\Scripts\EnemyRunnerScript.cs" />
     <Compile Include="Assets\Scripts\EnemyShooterScript.cs" />
     <Compile Include="Assets\Scripts\HordeControllerScript.cs" />
+    <Compile Include="Assets\Scripts\MenuNavigator.cs" />
     <Compile Include="Assets\Scripts\PlayerBulletControler.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\PlayerLevelControler.cs" />
+    <Compile Include="Assets\Scripts\Saver.cs" />
+    <Compile Include="Assets\Scripts\SpawnPoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
